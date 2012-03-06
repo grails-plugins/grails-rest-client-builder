@@ -70,11 +70,30 @@ class RestBuilder {
             customizer.delegate = requestCustomizer
             customizer.call()
         }
-        def responseEntity = restTemplate.exchange(url, method,requestCustomizer.createEntity(),String)
-        handleResponse(responseEntity)
+        try {
+            def responseEntity = restTemplate.exchange(url, method,requestCustomizer.createEntity(),String)
+            handleResponse(responseEntity)
+        }
+        catch(org.springframework.web.client.HttpClientErrorException e) {
+            return new ErrorResponse(error:e)
+        }
     }
     protected handleResponse(ResponseEntity responseEntity) {
         return new RestResponse(responseEntity: responseEntity)
+    }
+}
+class ErrorResponse {
+    @Delegate org.springframework.web.client.HttpClientErrorException error
+    @Lazy String text = {
+        error.responseBodyAsString
+    }()
+    
+    byte[] getBody() {
+        error.responseBodyAsByteArray
+    }
+
+    int getStatus() {
+        error.statusCode?.value() ?: 200
     }
 }
 class RestResponse {

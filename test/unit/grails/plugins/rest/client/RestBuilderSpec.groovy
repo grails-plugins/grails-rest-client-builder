@@ -22,6 +22,19 @@ class RestBuilderSpec extends spock.lang.Specification {
             resp.json.name == 'acegi'
     }
 
+    def "Test that obtaining a 404 response doesn't throw an exception but instead returns the response object for inspection"() {
+        given:"A rest client instance"
+            def rest = new RestBuilder()
+        when:"A get request is issued to a URL that returns a 404"
+            def resp = rest.get("http://grails.org/api/v1.0/plugin/nonsense") {
+                accept "application/xml"
+            }
+
+        then:"Check the status"
+            resp.status == 404
+            resp.text instanceof String
+            resp.body instanceof byte[]
+    }
 
     def "Test that a basic GET request returns a JSON result of the response type is JSON with custom settings"(){
         given:"A rest client instance"
