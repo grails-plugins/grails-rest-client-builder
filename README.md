@@ -41,3 +41,24 @@ And XML:
             
 In the example above the `auth` method performs HTTP basic auth, the `contentType` method sets the content type, and the `json` method constructs a JSON body.
 
+## Multipart Requests
+
+Multipart requests are possible by setting properties of the request body to `File`, `URL`, `byte[]` or `InputStream` instances: 
+
+        def resp = rest.post(url) {
+            contentType "multipart/form-data"
+            zip = new File(pluginPackage)
+            pom = new File(pomFile)
+            xml = new File(pluginXmlFile)
+        }
+
+## Connection/Proxy Configuration
+
+Connection and proxy configuration can be specified in the constructor to `RestBuilder`:
+
+    def rest = new RestBuilder(connectTimeout:1000, readTimeout:20000, proxy:['localhost':8888])
+
+The proxy setting can either be map containing the key for the host name and a value for the port or an instance of `java.net.Proxy`.
+
+
+

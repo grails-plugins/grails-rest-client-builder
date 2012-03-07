@@ -1,5 +1,6 @@
 package grails.plugins.rest.client
 
+import org.springframework.core.io.*
 import org.springframework.web.client.RestTemplate
 import org.springframework.http.*
 import org.springframework.util.*
@@ -21,6 +22,24 @@ class RestBuilder {
 
     RestBuilder(Map settings) {
         this()
+
+        def proxyHost = System.getProperty("http.proxyHost")
+        def proxyPort = System.getProperty("http.proxyPort")
+
+        if(proxyHost && proxyPort) {
+            if(settings.proxy == null) {
+                settings.proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort.toInteger()))
+            }
+        }
+        if(settings.proxy instanceof Map) {
+            def ps = settings.proxy.entrySet().iterator().next()
+            if(ps.value) {
+                def proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ps.key, ps.value.toInteger()))
+                settings.proxy = proxy
+            }
+        }
+
+
         restTemplate = new RestTemplate()
         restTemplate.setRequestFactory(new SimpleClientHttpRequestFactory(settings))
     }
@@ -188,6 +207,15 @@ class RequestCustomizer {
     }
 
     void setProperty(String name, value) {
+        if(value instanceof File) {
+            value = new FileSystemResource(value)
+        }
+        else if(value instanceof URL) {
+            value = new UrlResource(value)
+        }
+        else if(value instanceof InputStream) {
+            value = new InputStreamResource(value)
+        }
         mvm[name] = value
     }
 }

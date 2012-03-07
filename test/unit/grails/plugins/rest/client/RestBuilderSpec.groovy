@@ -9,6 +9,17 @@ import grails.test.mixin.web.*
 @TestMixin(ControllerUnitTestMixin)
 class RestBuilderSpec extends spock.lang.Specification {
 
+    def "Test proxy configuration"() {
+        when:"RestBuilder is configured with proxy settings"
+            def rest = new RestBuilder(proxy:['localhost':8888])
+
+            def proxyAddress = rest.restTemplate.requestFactory?.@proxy?.address()
+        then:"The proxy settings are correct"
+            proxyAddress != null
+            proxyAddress.hostName == "localhost"
+            proxyAddress.port == 8888
+    }
+
     def "Test that a basic GET request returns a JSON result of the response type is JSON"(){
         given:"A rest client instance"
             def rest = new RestBuilder()
