@@ -93,7 +93,7 @@ class RestBuilder {
             def responseEntity = restTemplate.exchange(url, method,requestCustomizer.createEntity(),String)
             handleResponse(responseEntity)
         }
-        catch(org.springframework.web.client.HttpClientErrorException e) {
+        catch(org.springframework.web.client.HttpStatusCodeException e) {
             return new ErrorResponse(error:e)
         }
     }
@@ -102,7 +102,7 @@ class RestBuilder {
     }
 }
 class ErrorResponse {
-    @Delegate org.springframework.web.client.HttpClientErrorException error
+    @Delegate org.springframework.web.client.HttpStatusCodeException error
     @Lazy String text = {
         error.responseBodyAsString
     }()
