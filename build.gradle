@@ -1,0 +1,21 @@
+apply plugin: "groovy"
+
+repositories {
+   mavenRepo url: "http://repo.grails.org/grails/core"
+   mavenRepo url: "http://repo.grails.org/grails/plugins"
+   mavenCentral()
+}
+
+dependencies {
+   groovy "org.codehaus.groovy:groovy:1.8.6"
+   compile "org.grails:grails-plugin-converters:2.0.4",
+            "org.grails:grails-plugin-codecs:2.0.4"
+}
+
+sourceSets {
+   main {
+      groovy {
+         srcDir "src/groovy"
+      }
+   }
+}
