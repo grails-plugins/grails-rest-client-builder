@@ -18,7 +18,7 @@ The response is a Spring [ResponseEntity](http://static.springsource.org/spring/
 
 There are convenience methods for obtaining JSON:
 
-      resp.json instanceof JSONObject
+      resp.json instanceof JSONElement
       resp.json.name == 'acegi'
             
 And XML:
