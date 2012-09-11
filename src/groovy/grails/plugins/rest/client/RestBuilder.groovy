@@ -5,6 +5,7 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.http.*
 import org.springframework.util.*
 import static org.springframework.http.MediaType.*
+
 import grails.converters.*
 import grails.web.*
 import org.springframework.http.client.*
@@ -90,7 +91,8 @@ class RestBuilder {
             customizer.call()
         }
         try {
-            def responseEntity = restTemplate.exchange(url, method,requestCustomizer.createEntity(),String)
+            def responseEntity = restTemplate.exchange(url, method,requestCustomizer.createEntity(),
+					String, requestCustomizer.getVariables())
             handleResponse(responseEntity)
         }
         catch(org.springframework.web.client.HttpStatusCodeException e) {
@@ -149,6 +151,7 @@ class RequestCustomizer {
     HttpHeaders headers = new HttpHeaders()
     def body
     MultiValueMap<String, Object> mvm = new LinkedMultiValueMap<String, Object>()
+	Map<String, Object> variables = [:]
 
     // configures basic author
     RequestCustomizer auth(String username, String password) {
@@ -191,6 +194,12 @@ class RequestCustomizer {
         this.body = sw.toString()
         return this
     }
+
+	RequestCustomizer urlVariables(Map<String, Object> variables) {
+		if (variables!=null)
+			this.variables = variables
+		return this
+	}
 
     RequestCustomizer body(content) {
         this.body = content

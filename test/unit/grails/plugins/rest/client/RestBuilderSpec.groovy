@@ -5,9 +5,10 @@ import groovy.util.slurpersupport.*
 
 import grails.test.mixin.*
 import grails.test.mixin.web.*
+import spock.lang.*
 
 @TestMixin(ControllerUnitTestMixin)
-class RestBuilderSpec extends spock.lang.Specification {
+class RestBuilderSpec extends Specification {
 
     def "Test proxy configuration"() {
         when:"RestBuilder is configured with proxy settings"
@@ -146,5 +147,33 @@ class RestBuilderSpec extends spock.lang.Specification {
             new URL( "http://repo.grails.org/grails/libs-snapshots-local/org/mycompany/1.0/foo-1.0.jar").text == "foo"
 
     }
+
+	// Note that this test uses JSON query parameters, but they are not actually validated due to the call
+	//	not using them. If a call that processes JSON URL parameters if used, this test would mean much more.
+	@Issue("https://github.com/grails-plugins/grails-rest-client-builder/issues/3")
+	def "Test URL variables for JSON URL paremeters"() {
+		given:"A rest client instance"
+			def rest = new RestBuilder()
+
+		when:"A get request with URL parameters defined as an implicit map"
+			def resp = rest.get("http://grails.org/api/v1.0/plugin/acegi/?query={query}&filter={filter}") {
+				urlVariables query:'{"query":true}', filter:'{"filter":true}'
+			}
+
+        then:"The response is a gpath result"
+            resp != null
+            resp.json instanceof JSONObject
+            resp.json.name == 'acegi'
+
+		when:"A get request with URL parameters defined as an explicit map"
+			resp = rest.get("http://grails.org/api/v1.0/plugin/acegi/?query={query}&filter={filter}") {
+				urlVariables([query:'{"query":true}', filter:'{"filter":true}'])
+			}
+
+		then:"The response is a gpath result"
+			resp != null
+			resp.json instanceof JSONObject
+			resp.json.name == 'acegi'
+	}
 }
 
