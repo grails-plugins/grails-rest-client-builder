@@ -210,6 +210,14 @@ class RequestCustomizer {
         }        
         return this
     }       
+    RequestCustomizer json(object) {
+        def json = object as JSON
+        body = json.toString()
+        if(!headers.contentType) {
+            contentType "application/json"
+        }        
+        return this
+    }      
 
     RequestCustomizer xml(Closure closure) {
         def b = new groovy.xml.StreamingMarkupBuilder()
@@ -220,6 +228,11 @@ class RequestCustomizer {
         return this
     }
 
+    RequestCustomizer xml(object) {
+        def xml = object as XML
+        this.body = xml.toString()
+        return this
+    }
 	RequestCustomizer urlVariables(Map<String, Object> variables) {
 		if (variables!=null)
 			this.variables = variables

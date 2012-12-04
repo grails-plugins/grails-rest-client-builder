@@ -176,6 +176,47 @@ class RestBuilderSpec extends Specification {
             resp.text == "Group 'test-group' has been removed successfully."
     }    
 
+
+   def "Test basic authentication with PUT request and JSON as map"() {
+        given:"A rest client instance"
+            def rest = new RestBuilder()
+
+        when:"A get request is issued for a response that returns XML"
+            def builder = new JSONBuilder()            
+            def j = [
+                name : "test-group",
+                description : "A temporary test group"
+            ]
+            def resp = rest.put("http://repo.grails.org/grails/api/security/groups/test-group"){
+                auth System.getProperty("artifactory.user"), System.getProperty("artifactory.pass")
+                contentType "application/vnd.org.jfrog.artifactory.security.Group+json"
+                json j
+            }
+        then:"The response is a gpath result"
+            resp != null
+            resp.status == 201
+            resp.text == "Created"
+
+        when:"The resource contents are requested"
+            resp = rest.get("http://repo.grails.org/grails/api/security/groups/test-group") {
+                auth System.getProperty("artifactory.user"), System.getProperty("artifactory.pass")
+            }
+
+        then:"The contents are valid"
+            resp != null
+            resp.json.name == 'test-group'
+
+        when:"The resource is deleted"
+            resp = rest.delete("http://repo.grails.org/grails/api/security/groups/test-group") {
+                auth System.getProperty("artifactory.user"), System.getProperty("artifactory.pass")
+            }
+
+        then:"The resource is gone"
+            resp != null
+            resp.status == 200
+            resp.text == "Group 'test-group' has been removed successfully."
+    }    
+
     def "Test PUT request passing binary content in the body"() {
         setup:
             def rest = new RestBuilder(connectTimeout: 1000, readTimeout:10000)
