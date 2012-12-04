@@ -1,2 +1,7 @@
 build/
 .gradle/
+plugin.xml
+target
+web-app
+*.zip
+*.log

@@ -1,18 +1,16 @@
 package grails.plugins.rest.client
 
-import org.codehaus.groovy.grails.web.json.*
-import groovy.util.slurpersupport.*
+import grails.converters.JSON
+import grails.test.mixin.TestMixin
+import grails.test.mixin.web.ControllerUnitTestMixin
+import grails.web.JSONBuilder
+import groovy.util.slurpersupport.GPathResult
 
-import grails.test.mixin.*
-import grails.test.mixin.web.*
-import spock.lang.*
+import org.codehaus.groovy.grails.web.json.JSONArray
+import org.codehaus.groovy.grails.web.json.JSONObject
 
-import grails.converters.*
-import grails.web.*
-import org.springframework.http.client.*
-import org.codehaus.groovy.grails.plugins.codecs.Base64Codec
-import groovy.util.slurpersupport.*
-import org.codehaus.groovy.grails.web.json.*
+import spock.lang.Issue
+import spock.lang.Specification
 
 @TestMixin(ControllerUnitTestMixin)
 class RestBuilderSpec extends Specification {
@@ -97,7 +95,6 @@ class RestBuilderSpec extends Specification {
             resp.json instanceof JSONArray 
     }
 
-
     def "Test basic authentication with PUT request"() {
         given:"A rest client instance"
             def rest = new RestBuilder()
@@ -136,7 +133,7 @@ class RestBuilderSpec extends Specification {
             resp.text == "Group 'test-group' has been removed successfully."
     }
 
-   def "Test basic authentication with PUT request and JSON body"() {
+    def "Test basic authentication with PUT request and JSON body"() {
         given:"A rest client instance"
             def rest = new RestBuilder()
 
@@ -176,8 +173,7 @@ class RestBuilderSpec extends Specification {
             resp.text == "Group 'test-group' has been removed successfully."
     }    
 
-
-   def "Test basic authentication with PUT request and JSON as map"() {
+    def "Test basic authentication with PUT request and JSON as map"() {
         given:"A rest client instance"
             def rest = new RestBuilder()
 
@@ -264,4 +260,3 @@ class RestBuilderSpec extends Specification {
 			resp.json.name == 'acegi'
 	}
 }
-

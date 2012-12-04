@@ -1,17 +1,25 @@
 package grails.plugins.rest.client
 
-import org.springframework.core.io.*
-import org.springframework.web.client.RestTemplate
-import org.springframework.http.*
-import org.springframework.util.*
 import static org.springframework.http.MediaType.*
+import grails.converters.JSON
+import grails.converters.XML
+import grails.web.JSONBuilder
+import groovy.util.slurpersupport.GPathResult
 
-import grails.converters.*
-import grails.web.*
-import org.springframework.http.client.*
 import org.codehaus.groovy.grails.plugins.codecs.Base64Codec
-import groovy.util.slurpersupport.*
-import org.codehaus.groovy.grails.web.json.*
+import org.codehaus.groovy.grails.web.json.JSONElement
+import org.springframework.core.io.FileSystemResource
+import org.springframework.core.io.InputStreamResource
+import org.springframework.core.io.UrlResource
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+import org.springframework.http.client.SimpleClientHttpRequestFactory
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
+import org.springframework.web.client.RestTemplate
 
 class RestBuilder {
 
@@ -39,7 +47,6 @@ class RestBuilder {
                 settings.proxy = proxy
             }
         }
-
 
         restTemplate = new RestTemplate()
         restTemplate.setRequestFactory(new SimpleClientHttpRequestFactory(settings))
@@ -92,7 +99,7 @@ class RestBuilder {
         }
         try {
             def responseEntity = restTemplate.exchange(url, method,requestCustomizer.createEntity(),
-					String, requestCustomizer.getVariables())
+                    String, requestCustomizer.getVariables())
             handleResponse(responseEntity)
         }
         catch(org.springframework.web.client.HttpStatusCodeException e) {
@@ -103,6 +110,7 @@ class RestBuilder {
         return new RestResponse(responseEntity: responseEntity)
     }
 }
+
 class ErrorResponse {
     @Delegate org.springframework.web.client.HttpStatusCodeException error
     @Lazy String text = {
@@ -129,6 +137,7 @@ class ErrorResponse {
         error.statusCode?.value() ?: 200
     }
 }
+
 class RestResponse {
     @Delegate ResponseEntity responseEntity
     @Lazy JSONElement json = {
@@ -157,13 +166,13 @@ class RestResponse {
     int getStatus() {
         responseEntity?.statusCode?.value() ?: 200
     }
-
 }
+
 class RequestCustomizer {
     HttpHeaders headers = new HttpHeaders()
     def body
     MultiValueMap<String, Object> mvm = new LinkedMultiValueMap<String, Object>()
-	Map<String, Object> variables = [:]
+    Map<String, Object> variables = [:]
 
     // configures basic author
     RequestCustomizer auth(String username, String password) {
@@ -233,11 +242,11 @@ class RequestCustomizer {
         this.body = xml.toString()
         return this
     }
-	RequestCustomizer urlVariables(Map<String, Object> variables) {
-		if (variables!=null)
-			this.variables = variables
-		return this
-	}
+    RequestCustomizer urlVariables(Map<String, Object> variables) {
+        if (variables!=null)
+            this.variables = variables
+        return this
+    }
 
     RequestCustomizer body(content) {
         if(content instanceof JSON) {
@@ -249,7 +258,6 @@ class RequestCustomizer {
         else {
             this.body = content    
         }
-        
 
         return this
     }
