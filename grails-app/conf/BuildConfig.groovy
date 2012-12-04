@@ -2,6 +2,7 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.target.level = 1.6
+grails.project.plugins.dir="target/plugins"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 grails.project.dependency.resolution = {
@@ -29,8 +30,7 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        build(":tomcat:$grailsVersion",
-              ":release:1.0.0") {
+        build(":tomcat:$grailsVersion") {
             export = false
         }
         test  ":spock:0.6-rc-1", {
