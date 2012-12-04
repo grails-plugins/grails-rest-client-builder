@@ -108,6 +108,18 @@ class ErrorResponse {
     @Lazy String text = {
         error.responseBodyAsString
     }()
+    @Lazy JSONElement json = {
+        def body = error.responseBodyAsString
+        if(body) {
+            return JSON.parse(body)
+        }
+    }()
+    @Lazy GPathResult xml = {
+        def body = error.responseBodyAsString
+        if(body) {
+            return XML.parse(body)
+        }
+    }()     
     
     byte[] getBody() {
         error.responseBodyAsByteArray
