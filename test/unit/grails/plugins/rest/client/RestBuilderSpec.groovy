@@ -7,6 +7,13 @@ import grails.test.mixin.*
 import grails.test.mixin.web.*
 import spock.lang.*
 
+import grails.converters.*
+import grails.web.*
+import org.springframework.http.client.*
+import org.codehaus.groovy.grails.plugins.codecs.Base64Codec
+import groovy.util.slurpersupport.*
+import org.codehaus.groovy.grails.web.json.*
+
 @TestMixin(ControllerUnitTestMixin)
 class RestBuilderSpec extends Specification {
 
@@ -128,6 +135,46 @@ class RestBuilderSpec extends Specification {
             resp.status == 200
             resp.text == "Group 'test-group' has been removed successfully."
     }
+
+   def "Test basic authentication with PUT request and JSON body"() {
+        given:"A rest client instance"
+            def rest = new RestBuilder()
+
+        when:"A get request is issued for a response that returns XML"
+            def builder = new JSONBuilder()            
+            JSON j = builder.build {
+                name = "test-group"
+                description = "A temporary test group"
+            }
+            def resp = rest.put("http://repo.grails.org/grails/api/security/groups/test-group"){
+                auth System.getProperty("artifactory.user"), System.getProperty("artifactory.pass")
+                contentType "application/vnd.org.jfrog.artifactory.security.Group+json"
+                body j
+            }
+        then:"The response is a gpath result"
+            resp != null
+            resp.status == 201
+            resp.text == "Created"
+
+        when:"The resource contents are requested"
+            resp = rest.get("http://repo.grails.org/grails/api/security/groups/test-group") {
+                auth System.getProperty("artifactory.user"), System.getProperty("artifactory.pass")
+            }
+
+        then:"The contents are valid"
+            resp != null
+            resp.json.name == 'test-group'
+
+        when:"The resource is deleted"
+            resp = rest.delete("http://repo.grails.org/grails/api/security/groups/test-group") {
+                auth System.getProperty("artifactory.user"), System.getProperty("artifactory.pass")
+            }
+
+        then:"The resource is gone"
+            resp != null
+            resp.status == 200
+            resp.text == "Group 'test-group' has been removed successfully."
+    }    
 
     def "Test PUT request passing binary content in the body"() {
         setup:

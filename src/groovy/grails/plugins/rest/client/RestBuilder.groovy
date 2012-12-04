@@ -192,11 +192,24 @@ class RequestCustomizer {
     RequestCustomizer json(Closure callable) {
         def builder = new JSONBuilder()
         callable.resolveStrategy = Closure.DELEGATE_FIRST
-        JSON json = builder.build(callable) 
-
-        body = json.toString()
-        return this
+        JSON j = builder.build(callable) 
+        json(j)
     }
+
+    RequestCustomizer json(JSON json) {
+        body = json.toString()
+        if(!headers.contentType) {
+            contentType "application/json"
+        }        
+        return this
+    }    
+    RequestCustomizer json(String json) {
+        body = json
+        if(!headers.contentType) {
+            contentType "application/json"
+        }        
+        return this
+    }       
 
     RequestCustomizer xml(Closure closure) {
         def b = new groovy.xml.StreamingMarkupBuilder()
@@ -214,7 +227,17 @@ class RequestCustomizer {
 	}
 
     RequestCustomizer body(content) {
-        this.body = content
+        if(content instanceof JSON) {
+            if(!headers.contentType) {
+                contentType "application/json"
+            }
+            this.body = content.toString()
+        }
+        else {
+            this.body = content    
+        }
+        
+
         return this
     }
 
