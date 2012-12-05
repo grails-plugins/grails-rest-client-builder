@@ -85,12 +85,18 @@ class RequestCustomizer {
         StringWriter sw = new StringWriter()
         markup.writeTo(sw)
         body = sw.toString()
+        if (!headers.contentType) {
+            contentType "application/xml"
+        }
         return this
     }
 
     RequestCustomizer xml(object) {
         def xml = object as XML
         body = xml.toString()
+        if (!headers.contentType) {
+            contentType "application/xml"
+        }
         return this
     }
 
@@ -116,7 +122,7 @@ class RequestCustomizer {
     }
 
     HttpEntity createEntity() {
-		 return mvm ? new HttpEntity(mvm, headers) : new HttpEntity(body, headers)
+        return mvm ? new HttpEntity(mvm, headers) : new HttpEntity(body, headers)
     }
 
     void setProperty(String name, value) {
