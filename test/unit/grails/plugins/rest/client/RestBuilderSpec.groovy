@@ -18,8 +18,8 @@ class RestBuilderSpec extends Specification {
     def "Test proxy configuration"() {
         when:"RestBuilder is configured with proxy settings"
             def rest = new RestBuilder(proxy:['localhost':8888])
-
             def proxyAddress = rest.restTemplate.requestFactory?.@proxy?.address()
+
         then:"The proxy settings are correct"
             proxyAddress != null
             proxyAddress.hostName == "localhost"
@@ -92,7 +92,7 @@ class RestBuilderSpec extends Specification {
 
         then:"The response is a gpath result"
             resp != null
-            resp.json instanceof JSONArray 
+            resp.json instanceof JSONArray
     }
 
     def "Test basic authentication with PUT request"() {
@@ -138,7 +138,7 @@ class RestBuilderSpec extends Specification {
             def rest = new RestBuilder()
 
         when:"A get request is issued for a response that returns XML"
-            def builder = new JSONBuilder()            
+            def builder = new JSONBuilder()
             JSON j = builder.build {
                 name = "test-group"
                 description = "A temporary test group"
@@ -171,14 +171,14 @@ class RestBuilderSpec extends Specification {
             resp != null
             resp.status == 200
             resp.text == "Group 'test-group' has been removed successfully."
-    }    
+    }
 
     def "Test basic authentication with PUT request and JSON as map"() {
         given:"A rest client instance"
             def rest = new RestBuilder()
 
         when:"A get request is issued for a response that returns XML"
-            def builder = new JSONBuilder()            
+            def builder = new JSONBuilder()
             def j = [
                 name : "test-group",
                 description : "A temporary test group"
@@ -211,7 +211,7 @@ class RestBuilderSpec extends Specification {
             resp != null
             resp.status == 200
             resp.text == "Group 'test-group' has been removed successfully."
-    }    
+    }
 
     def "Test PUT request passing binary content in the body"() {
         setup:
@@ -219,17 +219,16 @@ class RestBuilderSpec extends Specification {
             rest.delete("http://repo.grails.org/grails/libs-snapshots-local/org/mycompany/1.0/foo-1.0.jar") {
                 auth System.getProperty("artifactory.user"), System.getProperty("artifactory.pass")
             }
-   
+
         when:"A put request is issued that contains binary content"
             def resp = rest.put("http://repo.grails.org/grails/libs-snapshots-local/org/mycompany/1.0/foo-1.0.jar") {
                 auth System.getProperty("artifactory.user"), System.getProperty("artifactory.pass")
                 body "foo".bytes
             }
-            
+
         then:"The response JSON is correct"
             resp.json.uri == "http://repo.grails.org/grails/libs-snapshots-local/org/mycompany/1.0/foo-1.0.jar"
             new URL( "http://repo.grails.org/grails/libs-snapshots-local/org/mycompany/1.0/foo-1.0.jar").text == "foo"
-
     }
 
 	// Note that this test uses JSON query parameters, but they are not actually validated due to the call

@@ -4,8 +4,8 @@
 
 Edit `BuildConfig.groovy` and add the following dependency:
 
-    compile ":rest-client-builder:1.0"
-    
+    compile ":rest-client-builder:1.0.3"
+
 ## Basic Usage
 
 Main entry point is the `grails.plugins.rest.client.RestBuilder` class. Construct and use one of the REST "verbs".
@@ -20,12 +20,12 @@ There are convenience methods for obtaining JSON:
 
       resp.json instanceof JSONObject
       resp.json.name == 'acegi'
-            
+
 And XML:
 
       resp.xml instanceof GPathResult
       resp.xml.name == 'acegi'
-      
+
 ## POST and PUT requests
 
 `POST` and `PUT` requests can be issued with the `post` and `put` methods respectively:
@@ -38,7 +38,7 @@ And XML:
                     description = "A temporary test group"
                 }
             }
-            
+
 In the example above the `auth` method performs HTTP basic auth, the `contentType` method sets the content type, and the `json` method constructs a JSON body.
 
 ## Exchanging JSON and XML content
@@ -55,7 +55,7 @@ As demonstrated in the previous example you can send JSON data using the json me
                 ...
                 contentType "application/vnd.org.jfrog.artifactory.security.Group+json"
                 json '{ name: "test-group", description: "A temporary test group" }'
-            }            
+            }
 
 If you don't explicitly set the contentType like is done above then the default content type for the `json` method is "application/json".
 
@@ -65,7 +65,7 @@ The response object has `xml` or `json` properties for reading the response of t
 
 ## Multipart Requests
 
-Multipart requests are possible by setting properties of the request body to `File`, `URL`, `byte[]` or `InputStream` instances: 
+Multipart requests are possible by setting properties of the request body to `File`, `URL`, `byte[]` or `InputStream` instances:
 
         def resp = rest.post(url) {
             contentType "multipart/form-data"
@@ -81,6 +81,3 @@ Connection and proxy configuration can be specified in the constructor to `RestB
     def rest = new RestBuilder(connectTimeout:1000, readTimeout:20000, proxy:['localhost':8888])
 
 The proxy setting can either be map containing the key for the host name and a value for the port or an instance of `java.net.Proxy`.
-
-
-

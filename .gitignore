@@ -5,3 +5,4 @@ target
 web-app
 *.zip
 *.log
+.settings
