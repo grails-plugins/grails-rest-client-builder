@@ -22,8 +22,7 @@ import org.apache.http.conn.ssl.TrustStrategy
 class RestBuilder {
 
     // TODO setup FakeSSLSocketFactory as an option
-    RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory()) 
-
+    def RestTemplate restTemplate = new RestTemplate()
     RestBuilder() {}
 
     RestBuilder(Map settings) {
@@ -44,6 +43,8 @@ class RestBuilder {
                 settings.proxy = proxy
             }
         }
+
+        if(settings.fakeSSL) restTemplate = new RestTemplate(getClientHttpRequestFactory()) 
 
         restTemplate.setRequestFactory(new SimpleClientHttpRequestFactory(settings))
     }
