@@ -28,12 +28,27 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager
 
 class RestBuilder {
 
-    def RestTemplate restTemplate = new RestTemplate()
+    RestTemplate restTemplate = new RestTemplate()
 
-    RestBuilder() {}
+    RestBuilder() {
+        restTemplate = new RestTemplate()
+    }
+
+    RestBuilder(ClientHttpRequestFactory factory) {
+        restTemplate = new RestTemplate(factory)
+    }
+
+    RestBuilder(Map settings, ClientHttpRequestFactory factory) {
+        restTemplate = new RestTemplate(factory)
+        setup(settings)
+    }
 
     RestBuilder(Map settings) {
+        restTemplate = new RestTemplate()
+        setup(settings) 
+    }
 
+    private setup(Map settings) {
         def proxyHost = System.getProperty("http.proxyHost")
         def proxyPort = System.getProperty("http.proxyPort")
 
@@ -50,8 +65,6 @@ class RestBuilder {
                 settings.proxy = proxy
             }
         }
-
-        if(settings.fakeSSL) restTemplate = new RestTemplate(getClientHttpRequestFactory()) 
 
         restTemplate.setRequestFactory(new SimpleClientHttpRequestFactory(settings))
     }
@@ -116,18 +129,18 @@ class RestBuilder {
         return new RestResponse(responseEntity: responseEntity)
     }
 
-    private ClientHttpRequestFactory getClientHttpRequestFactory() {
-      return getClientRequestFactory(createClient())
+    public static ClientHttpRequestFactory getFakeSSLClient() {
+      return getClientRequestFactory(createClientFakeSSLSocketFactory())
     }
 
-    private getClientRequestFactory(DefaultHttpClient httpClient) {
+    private static getClientRequestFactory(DefaultHttpClient httpClient) {
       return new HttpComponentsClientHttpRequestFactory(httpClient)
     }
 
-    private DefaultHttpClient createClient() {
+    private static DefaultHttpClient createClientFakeSSLSocketFactory() {
       SchemeRegistry schemeRegistry = new SchemeRegistry()
       schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()))
-      schemeRegistry.register(new Scheme("https", 443, getSSLSocketFactory()))
+      schemeRegistry.register(new Scheme("https", 443, getFakeSSLSocketFactory()))
 
       PoolingClientConnectionManager connectionManager = new PoolingClientConnectionManager(schemeRegistry)
       // connectionManager.setMaxTotal(DEFAULT_MAX_TOTAL_CONNECTIONS)
@@ -135,7 +148,7 @@ class RestBuilder {
       return new DefaultHttpClient(connectionManager)
     }
 
-    private SSLSocketFactory getSSLSocketFactory() {
+    private static SSLSocketFactory getFakeSSLSocketFactory() {
       SSLSocketFactory sslSocketFactory
       try {
         return new SSLSocketFactory(new TrustStrategy() {
