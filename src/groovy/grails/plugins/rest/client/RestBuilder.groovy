@@ -28,7 +28,7 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager
 
 class RestBuilder {
 
-    RestTemplate restTemplate = new RestTemplate()
+    RestTemplate restTemplate
 
     RestBuilder() {
         restTemplate = new RestTemplate()
