@@ -11,9 +11,5 @@ grails.project.dependency.resolution = {
 	}
 
 	plugins {
-		test ":spock:0.6", {
-			excludes 'xml-apis'
-			export = false
-		}
 	}
 }
