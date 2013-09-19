@@ -6,3 +6,5 @@ web-app
 *.zip
 *.log
 .settings
+
+*.swp
