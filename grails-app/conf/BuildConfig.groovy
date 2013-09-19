@@ -10,6 +10,10 @@ grails.project.dependency.resolution = {
 		grailsCentral()
 	}
 
+  dependencies {
+    compile "org.apache.httpcomponents:httpclient:4.2.4"
+  }
+
 	plugins {
 	}
 }
