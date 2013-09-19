@@ -5,6 +5,7 @@ import grails.converters.XML
 import groovy.util.slurpersupport.GPathResult
 
 import org.codehaus.groovy.grails.web.json.JSONElement
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity
 
 class RestResponse {
@@ -36,5 +37,9 @@ class RestResponse {
 
     int getStatus() {
         responseEntity?.statusCode?.value() ?: 200
+    }
+    
+    String getHeader(headerName) {
+       responseEntity?.headers.getFirst(headerName) 
     }
 }
