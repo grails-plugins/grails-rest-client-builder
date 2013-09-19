@@ -4,9 +4,11 @@ import static org.springframework.http.MediaType.*
 
 import org.springframework.http.HttpMethod
 import org.springframework.http.ResponseEntity
+import org.springframework.http.client.ClientHttpRequestFactory
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.http.client.SimpleClientHttpRequestFactory
-import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.HttpStatusCodeException
 
 import java.security.KeyManagementException
 import java.security.KeyStoreException
@@ -15,14 +17,19 @@ import java.security.UnrecoverableKeyException
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
 
+import org.apache.http.conn.scheme.PlainSocketFactory
+import org.apache.http.conn.scheme.Scheme
+import org.apache.http.conn.scheme.SchemeRegistry
 import org.apache.http.conn.ssl.SSLSocketFactory
 import org.apache.http.conn.ssl.TrustStrategy
+import org.apache.http.impl.client.DefaultHttpClient
+import org.apache.http.impl.conn.PoolingClientConnectionManager
 
 
 class RestBuilder {
 
-    // TODO setup FakeSSLSocketFactory as an option
     def RestTemplate restTemplate = new RestTemplate()
+
     RestBuilder() {}
 
     RestBuilder(Map settings) {
