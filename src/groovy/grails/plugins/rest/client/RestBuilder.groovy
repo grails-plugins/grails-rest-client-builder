@@ -8,9 +8,21 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.client.RestTemplate
 
+import java.security.KeyManagementException
+import java.security.KeyStoreException
+import java.security.NoSuchAlgorithmException
+import java.security.UnrecoverableKeyException
+import java.security.cert.CertificateException
+import java.security.cert.X509Certificate
+
+import org.apache.http.conn.ssl.SSLSocketFactory
+import org.apache.http.conn.ssl.TrustStrategy
+
+
 class RestBuilder {
 
-    RestTemplate restTemplate = new RestTemplate()
+    // TODO setup FakeSSLSocketFactory as an option
+    RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory()) 
 
     RestBuilder() {}
 
@@ -95,4 +107,43 @@ class RestBuilder {
     protected handleResponse(ResponseEntity responseEntity) {
         return new RestResponse(responseEntity: responseEntity)
     }
+
+    private ClientHttpRequestFactory getClientHttpRequestFactory() {
+      return getClientRequestFactory(createClient())
+    }
+
+    private getClientRequestFactory(DefaultHttpClient httpClient) {
+      return new HttpComponentsClientHttpRequestFactory(httpClient)
+    }
+
+    private DefaultHttpClient createClient() {
+      SchemeRegistry schemeRegistry = new SchemeRegistry()
+      schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory.getSocketFactory()))
+      schemeRegistry.register(new Scheme("https", 443, getSSLSocketFactory()))
+
+      PoolingClientConnectionManager connectionManager = new PoolingClientConnectionManager(schemeRegistry)
+      // connectionManager.setMaxTotal(DEFAULT_MAX_TOTAL_CONNECTIONS)
+      // connectionManager .setDefaultMaxPerRoute(DEFAULT_MAX_CONNECTIONS_PER_ROUTE)
+      return new DefaultHttpClient(connectionManager)
+    }
+
+    private SSLSocketFactory getSSLSocketFactory() {
+      SSLSocketFactory sslSocketFactory
+      try {
+        return new SSLSocketFactory(new TrustStrategy() {
+          public boolean isTrusted(final X509Certificate[] chain,
+            final String authType) throws CertificateException {
+          return true
+          } }, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
+      } catch (KeyManagementException e) {
+        throw new RuntimeException(e)
+      } catch (UnrecoverableKeyException e) {
+        throw new RuntimeException(e)
+      } catch (NoSuchAlgorithmException e) {
+        throw new RuntimeException(e)
+      } catch (KeyStoreException e) {
+        throw new RuntimeException(e)
+      }
+    }
+
 }
