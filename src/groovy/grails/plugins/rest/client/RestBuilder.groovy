@@ -78,6 +78,16 @@ class RestBuilder {
         doRequestInternal(url, customizer, HttpMethod.GET)
     }
 
+     /**
+   * Issues a GET request and returns the response in the most appropriate type
+   * @param url The URL - URI format
+   * @param url The closure customizer used to customize request attributes
+   */
+    def get(URI url, Closure customizer = null) {
+      doRequestInternal(url, customizer, HttpMethod.GET)
+    }
+
+
     /**
      * Issues a PUT request and returns the response in the most appropriate type
      *
@@ -105,6 +115,32 @@ class RestBuilder {
      */
     def delete(String url, Closure customizer = null) {
         doRequestInternal(url, customizer, HttpMethod.DELETE)
+    }
+
+    /**
+    * TODO: fix for query service - have to use URI
+    **/
+    protected doRequestInternal(URI url, Closure customizer, HttpMethod method) {
+
+      def requestCustomizer = new RequestCustomizer()
+        if (customizer != null) {
+          customizer.delegate = requestCustomizer
+            customizer.call()
+        }
+
+      try {
+        def responseEntity
+          if(requestCustomizer.getVariables())
+            responseEntity = restTemplate.exchange(url, method, requestCustomizer.createEntity(),
+                String, requestCustomizer.getVariables())
+          else
+            responseEntity = restTemplate.exchange(url, method, requestCustomizer.createEntity(), String)
+
+              handleResponse(responseEntity)
+      }
+      catch (HttpStatusCodeException e) {
+        return new ErrorResponse(error:e)
+      }
     }
 
     protected doRequestInternal(String url, Closure customizer, HttpMethod method) {
