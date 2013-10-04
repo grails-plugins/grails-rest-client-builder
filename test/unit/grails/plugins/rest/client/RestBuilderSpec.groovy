@@ -9,6 +9,7 @@ import groovy.util.slurpersupport.GPathResult
 import org.codehaus.groovy.grails.web.json.JSONArray
 import org.codehaus.groovy.grails.web.json.JSONObject
 
+import spock.lang.Ignore
 import spock.lang.Issue
 import spock.lang.Specification
 import spock.lang.Shared
@@ -76,6 +77,7 @@ class RestBuilderSpec extends Specification {
             resp.xml.name == 'acegi'
     }
 
+    @Ignore
     def "Test basic authentication with GET request"() {
         when:"A get request is issued for a response that returns XML"
             def resp = rest.get("http://repo.grails.org/grails/api/security/users"){
@@ -87,6 +89,7 @@ class RestBuilderSpec extends Specification {
             resp.json instanceof JSONArray
     }
 
+    @Ignore
     def "Test basic authentication with PUT request"() {
         when:"A get request is issued for a response that returns XML"
             def resp = rest.put("http://repo.grails.org/grails/api/security/groups/test-group"){
@@ -122,6 +125,7 @@ class RestBuilderSpec extends Specification {
             resp.text == "Group 'test-group' has been removed successfully."
     }
 
+    @Ignore
     def "Test basic authentication with PUT request and JSON body"() {
         when:"A get request is issued for a response that returns XML"
             def builder = new JSONBuilder()
@@ -159,6 +163,7 @@ class RestBuilderSpec extends Specification {
             resp.text == "Group 'test-group' has been removed successfully."
     }
 
+    @Ignore
     def "Test basic authentication with PUT request and JSON as map"() {
         when:"A get request is issued for a response that returns XML"
             def builder = new JSONBuilder()
@@ -196,6 +201,7 @@ class RestBuilderSpec extends Specification {
             resp.text == "Group 'test-group' has been removed successfully."
     }
 
+    @Ignore
     def "Test PUT request passing binary content in the body"() {
         setup:
             def restBinary = new RestBuilder(connectTimeout: 1000, readTimeout:10000)
