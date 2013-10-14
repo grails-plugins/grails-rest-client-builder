@@ -8,3 +8,4 @@ web-app
 .settings
 
 *.swp
+target-eclipse
