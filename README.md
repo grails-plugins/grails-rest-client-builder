@@ -1,5 +1,9 @@
 # Rest Client Builder Grails Plugin
 
+## Notice
+
+The code for this plugin has moved to a [subproject of the Grails Data](https://github.com/grails/grails-data-mapping/blob/master/grails-datastore-rest-client/). Please submit any pull requests there.
+
 ## Installation
 
 Edit `BuildConfig.groovy` and add the following dependency:
