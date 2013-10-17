@@ -1,10 +1,10 @@
 class RestClientBuilderGrailsPlugin {
-	def version = "1.0.3"
+	def version = "2.0.0"
 	def grailsVersion = "2.0 > *"
 
 	def title = 'REST Client Builder Plugin'
 	def description = 'Grails REST Client Builder Plugin'
-	def documentation = 'http://grails.org/plugin/rest-client-builder'
+	def documentation = 'https://github.com/grails-plugins/grails-rest-client-builder/'
 
 	def license = 'APACHE'
 	def organization = [name: 'SpringSource', url: 'http://www.springsource.org/']
