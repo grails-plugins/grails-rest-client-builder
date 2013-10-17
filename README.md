@@ -12,7 +12,9 @@ Edit `BuildConfig.groovy` and add the following dependency:
 
 ## Basic Usage
 
-Main entry point is the `grails.plugins.rest.client.RestBuilder` class. Construct and use one of the REST "verbs".
+For API-style documentation refer to the [Groovydocs](http://springsource.github.io/grails-data-mapping/rest-client/api/index.html)
+
+The main entry point is the [grails.plugins.rest.client.RestBuilder](http://springsource.github.io/grails-data-mapping/rest-client/api/grails/plugins/rest/client/RestBuilder.html) class. Construct and use one of the REST "verbs".
 
 A `GET` request:
 
