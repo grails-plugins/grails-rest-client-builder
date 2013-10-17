@@ -6,3 +6,6 @@ web-app
 *.zip
 *.log
 .settings
+
+*.swp
+target-eclipse

@@ -8,12 +8,13 @@ grails.project.dependency.resolution = {
 
 	repositories {
 		grailsCentral()
+    mavenCentral()
 	}
 
+  dependencies {
+    compile "org.apache.httpcomponents:httpclient:4.2.4"
+  }
+
 	plugins {
-		test ":spock:0.6", {
-			excludes 'xml-apis'
-			export = false
-		}
 	}
 }
