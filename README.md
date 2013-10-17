@@ -8,7 +8,7 @@ The code for this plugin has moved to a [subproject of the Grails Data](https://
 
 Edit `BuildConfig.groovy` and add the following dependency:
 
-    compile ":rest-client-builder:1.0.3"
+    compile ":rest-client-builder:2.0.0"
 
 ## Basic Usage
 
