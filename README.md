@@ -69,6 +69,10 @@ XML is very similar, there is an `xml` method that takes a closure to build XML,
 
 The response object has `xml` or `json` properties for reading the response of the request as demonstratd in the "Basic Usage" section.
 
+## Testing
+
+Testing can be done with Spring's RestTemplate mocking APIs. See the tests for RestBuilder itself for [an example](https://github.com/grails-plugins/grails-rest-client-builder/blob/master/test/unit/grails/plugins/rest/client/RestBuilderSpec.groovy#L57).
+
 ## Multipart Requests
 
 Multipart requests are possible by setting properties of the request body to `File`, `URL`, `byte[]` or `InputStream` instances:
