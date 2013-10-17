@@ -1,38 +1,169 @@
-<project xmlns='http://maven.apache.org/POM/4.0.0' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd'>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.grails.plugins</groupId>
-  <artifactId>rest-client-builder</artifactId>
-  <packaging>zip</packaging>
-  <version>1.0.3</version>
-  <name>REST Client Builder Plugin</name>
-  <description>Grails REST Client Builder Plugin</description>
-  <url>http://grails.org/plugin/rest-client-builder</url>
-  <licenses>
-    <license>
-      <name>Apache License 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-  <organization>
-    <name>SpringSource</name>
-    <url>http://www.springsource.org/</url>
-  </organization>
-  <developers>
-    <developer>
-      <name>Graeme Rocher</name>
-      <email>grocher@vmware.com</email>
-    </developer>
-    <developer>
-      <name>Graeme Rocher</name>
-      <email>grocher@vmware.com</email>
-    </developer>
-  </developers>
-  <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.grails.org/browse/GPRESTCLIENTBUILDER</url>
-  </issueManagement>
-  <scm>
-    <url>https://github.com/grails-plugins/grails-rest-client-builder</url>
-  </scm>
-  <dependencies />
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.grails.plugins</groupId>
+    <artifactId>grails-rest-client-builder</artifactId>
+    <version>1.0.4</version>
+    <packaging>grails-plugin</packaging>
+
+
+    <name>REST Client Builder Plugin</name>
+    <description>Grails REST Client Builder Plugin</description>
+    <url>http://grails.org/plugin/rest-client-builder</url>
+
+    <properties>
+        <grails.version>2.2.3</grails.version>
+    </properties>
+    <licenses>
+      <license>
+        <name>Apache License 2.0</name>
+        <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      </license>
+    </licenses>
+    <organization>
+      <name>SpringSource</name>
+      <url>http://www.springsource.org/</url>
+    </organization>
+    <developers>
+      <developer>
+        <name>Graeme Rocher</name>
+        <email>grocher@vmware.com</email>
+      </developer>
+      <developer>
+        <name>Graeme Rocher</name>
+        <email>grocher@vmware.com</email>
+      </developer>
+    </developers>
+    <issueManagement>
+      <system>JIRA</system>
+      <url>http://jira.grails.org/browse/GPRESTCLIENTBUILDER</url>
+    </issueManagement>
+    <scm>
+      <url>https://github.com/grails-plugins/grails-rest-client-builder</url>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.4</version>
+        </dependency>
+        <dependency>
+          <groupId>org.spockframework</groupId>
+          <artifactId>spock-grails-support</artifactId>
+          <version>0.7-groovy-2.0</version>
+          <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.grails</groupId>
+            <artifactId>grails-dependencies</artifactId>
+            <version>${grails.version}</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.grails</groupId>
+            <artifactId>grails-test</artifactId>
+            <version>${grails.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.grails</groupId>
+            <artifactId>grails-plugin-testing</artifactId>
+            <version>${grails.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement />
+
+        <plugins>
+            <!-- Disables the Maven surefire plugin for Grails applications, as we have our own test runner -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>surefire-it</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skip>type</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>plugins</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.grails</groupId>
+                <artifactId>grails-maven-plugin</artifactId>
+                <version>${grails.version}</version>
+                <configuration>
+                  <!-- Whether for Fork a JVM to run Grails commands -->
+                  <fork>false</fork>
+                </configuration>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>grails</id>
+            <name>grails</name>
+            <url>http://repo.grails.org/grails/core</url>
+        </repository>
+        <repository>
+            <id>grails-plugins</id>
+            <name>grails-plugins</name>
+            <url>http://repo.grails.org/grails/plugins</url>
+        </repository>
+    </repositories>
+
+    <profiles>
+        <profile>
+            <id>tools</id>
+            <activation>
+                <property>
+                    <name>java.vendor</name>
+                    <value>Sun Microsystems Inc.</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.sun</groupId>
+                    <artifactId>tools</artifactId>
+                    <version>${java.version}</version>
+                    <scope>system</scope>
+                    <systemPath>${java.home}/../lib/tools.jar</systemPath>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
