@@ -12,7 +12,9 @@ Edit `BuildConfig.groovy` and add the following dependency:
 
 ## Basic Usage
 
-Main entry point is the `grails.plugins.rest.client.RestBuilder` class. Construct and use one of the REST "verbs".
+For API-style documentation refer to the [Groovydocs](http://springsource.github.io/grails-data-mapping/rest-client/api/index.html)
+
+The main entry point is the [grails.plugins.rest.client.RestBuilder](http://springsource.github.io/grails-data-mapping/rest-client/api/grails/plugins/rest/client/RestBuilder.html) class. Construct and use one of the REST "verbs".
 
 A `GET` request:
 
@@ -66,6 +68,10 @@ If you don't explicitly set the contentType like is done above then the default 
 XML is very similar, there is an `xml` method that takes a closure to build XML, and object which is convertable to XML or a String of XML.
 
 The response object has `xml` or `json` properties for reading the response of the request as demonstratd in the "Basic Usage" section.
+
+## Testing
+
+Testing can be done with Spring's RestTemplate mocking APIs. See the tests for RestBuilder itself for [an example](https://github.com/grails-plugins/grails-rest-client-builder/blob/master/test/unit/grails/plugins/rest/client/RestBuilderSpec.groovy#L57).
 
 ## Multipart Requests
 
