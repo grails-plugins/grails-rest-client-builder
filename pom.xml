@@ -14,7 +14,7 @@
     <url>http://grails.org/plugin/rest-client-builder</url>
 
     <properties>
-        <grails.version>2.2.3</grails.version>
+        <grails.version>2.3.0</grails.version>
     </properties>
     <licenses>
       <license>
@@ -50,21 +50,28 @@
             <artifactId>httpclient</artifactId>
             <version>4.2.4</version>
         </dependency>
+
         <dependency>
-          <groupId>org.spockframework</groupId>
-          <artifactId>spock-grails-support</artifactId>
-          <version>0.7-groovy-2.0</version>
-          <scope>test</scope>
+          <groupId>org.codehaus.groovy</groupId>
+          <artifactId>groovy-all</artifactId>
+          <version>2.1.7</version>
+          <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.grails</groupId>
-            <artifactId>grails-dependencies</artifactId>
-            <version>${grails.version}</version>
-            <type>pom</type>
+          <groupId>org.grails</groupId>
+          <artifactId>grails-dependencies</artifactId>
+          <version>${grails.version}</version>
+          <type>pom</type>
         </dependency>
 
-        <dependency>
+       <dependency>
+         <groupId>org.apache.tomcat</groupId>
+         <artifactId>tomcat-servlet-api</artifactId>
+         <version>7.0.42</version>
+         <scope>provided</scope>
+       </dependency>
+          <dependency>
             <groupId>org.grails</groupId>
             <artifactId>grails-test</artifactId>
             <version>${grails.version}</version>

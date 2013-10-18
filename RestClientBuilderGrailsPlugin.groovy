@@ -1,6 +1,6 @@
 class RestClientBuilderGrailsPlugin {
 	def version = "1.0.4"
-	def grailsVersion = "2.2.3 > *"
+	def grailsVersion = "2.3.0 > *"
 
 	def title = 'REST Client Builder Plugin'
 	def description = 'Grails REST Client Builder Plugin'

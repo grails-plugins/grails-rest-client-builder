@@ -8,8 +8,8 @@ repositories {
 
 dependencies {
    bootstrap "org.codehaus.groovy:groovy:2.1.6"
-   compile "org.grails:grails-plugin-converters:2.2.3",
-            "org.grails:grails-plugin-codecs:2.2.3"
+   compile "org.grails:grails-plugin-converters:2.3.0",
+            "org.grails:grails-plugin-codecs:2.3.0"
 }
 
 sourceSets {
