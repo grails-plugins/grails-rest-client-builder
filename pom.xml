@@ -52,13 +52,6 @@
         </dependency>
 
         <dependency>
-          <groupId>org.codehaus.groovy</groupId>
-          <artifactId>groovy-all</artifactId>
-          <version>2.1.7</version>
-          <scope>provided</scope>
-        </dependency>
-
-        <dependency>
           <groupId>org.grails</groupId>
           <artifactId>grails-dependencies</artifactId>
           <version>${grails.version}</version>
@@ -71,18 +64,19 @@
          <version>7.0.42</version>
          <scope>provided</scope>
        </dependency>
-          <dependency>
-            <groupId>org.grails</groupId>
-            <artifactId>grails-test</artifactId>
-            <version>${grails.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.grails</groupId>
-            <artifactId>grails-plugin-testing</artifactId>
-            <version>${grails.version}</version>
-            <scope>test</scope>
-        </dependency>
+
+       <dependency>
+         <groupId>org.grails</groupId>
+         <artifactId>grails-test</artifactId>
+         <version>${grails.version}</version>
+         <scope>test</scope>
+       </dependency>
+       <dependency>
+         <groupId>org.grails</groupId>
+         <artifactId>grails-plugin-testing</artifactId>
+         <version>${grails.version}</version>
+         <scope>test</scope>
+       </dependency>
     </dependencies>
 
     <build>
@@ -133,7 +127,7 @@
                 <version>${grails.version}</version>
                 <configuration>
                   <!-- Whether for Fork a JVM to run Grails commands -->
-                  <fork>false</fork>
+                  <fork>true</fork>
                 </configuration>
                 <extensions>true</extensions>
             </plugin>
