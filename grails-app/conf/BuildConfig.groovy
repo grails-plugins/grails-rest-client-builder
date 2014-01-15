@@ -13,7 +13,9 @@ grails.project.dependency.resolution = {
 	}
 
 	dependencies {
-		compile 'org.grails:grails-datastore-rest-client:1.0.0.RELEASE'
+		compile 'org.grails:grails-datastore-rest-client:1.0.0.RELEASE', {
+            excludes 'grails-core', 'grails-web', 'grails-plugin-converters'
+        }
 	}
 
     plugins {
