@@ -69,6 +69,14 @@ XML is very similar, there is an `xml` method that takes a closure to build XML,
 
 The response object has `xml` or `json` properties for reading the response of the request as demonstratd in the "Basic Usage" section.
 
+## Sending custom headers
+
+You can include in your request any additional header:
+
+    def resp = rest.put("http://example.org/api/login") {
+        header 'X-Auth-Token', '1a2b3c4d5e6f7g8h'
+    }
+
 ## Testing
 
 Testing can be done with Spring's RestTemplate mocking APIs. See the tests for RestBuilder itself for [an example](https://github.com/grails-plugins/grails-rest-client-builder/blob/master/test/unit/grails/plugins/rest/client/RestBuilderSpec.groovy#L57).
