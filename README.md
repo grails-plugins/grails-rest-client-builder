@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/grails-plugins/grails-rest-client-builder.svg)](https://travis-ci.org/grails-plugins/grails-rest-client-builder)
+
 # Rest Client Builder Grails Plugin
 
 ## Notice
