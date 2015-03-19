@@ -18,11 +18,11 @@ grails.project.dependency.resolution = {
 	}
 
 	dependencies {
-		compile 'org.grails:grails-datastore-rest-client:1.0.1.RELEASE'
+		compile 'org.grails:grails-datastore-rest-client:3.1.4.RELEASE'
 	}
 
     plugins {
-        build(":release:3.0.1") {
+        build(":release:3.1.0") {
             export = false
             excludes 'rest-client-builder'
         }
