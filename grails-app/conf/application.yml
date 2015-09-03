@@ -1,0 +1,11 @@
+grails:
+   profile: web-plugin
+   doc:
+      authors: 'Graeme Rocher'
+      license: 'Apache License 2.0'
+      title:   'REST Client Builder Plugin'
+info:
+   app:
+      name: '@info.app.name@'
+      version: '@info.app.version@'
+      grailsVersion: '@info.app.grailsVersion@'

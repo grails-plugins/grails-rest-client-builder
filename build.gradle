@@ -1,21 +1,67 @@
-apply plugin: "groovy"
+buildscript {
+	ext {
+		grailsVersion = project.grailsVersion
+	}
+	repositories {
+		mavenLocal()
+		maven { url 'https://repo.grails.org/grails/core' }
+	}
+	dependencies {
+		classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+	}
+}
+
+plugins {
+	id 'io.spring.dependency-management' version '0.5.2.RELEASE'
+	id 'com.jfrog.bintray' version '1.2'
+}
+
+version '3.0.0-SNAPSHOT'
+group 'org.grails.plugins'
+
+apply plugin: 'maven-publish'
+apply plugin: 'spring-boot'
+apply plugin: 'org.grails.grails-plugin'
+
+apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
+apply from: 'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
+
+ext {
+	grailsVersion = project.grailsVersion
+	gradleWrapperVersion = project.gradleWrapperVersion
+}
+
+sourceCompatibility = targetCompatibility = 1.7
 
 repositories {
-   mavenRepo url: "http://repo.grails.org/grails/core"
-   mavenRepo url: "http://repo.grails.org/grails/plugins"
-   mavenCentral()
+	mavenLocal()
+	mavenCentral()
+	maven { url 'https://repo.grails.org/grails/core' }
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.grails:grails-bom:$grailsVersion"
+	}
+	applyMavenExclusions false
 }
 
 dependencies {
-   groovy "org.codehaus.groovy:groovy:1.8.6"
-   compile "org.grails:grails-plugin-converters:2.0.4",
-            "org.grails:grails-plugin-codecs:2.0.4"
+
+	provided 'javax.servlet:javax.servlet-api:3.1.0'
+	provided 'org.grails:grails-dependencies'
+	provided 'org.grails:grails-web-boot'
+
+	compile 'org.grails:grails-datastore-rest-client:4.0.4.RELEASE', {
+		['commons-codec', 'grails-async', 'grails-core', 'grails-plugin-converters',
+		 'grails-web', 'groovy'].each { exclude module: it }
+	}
+
+	console 'org.grails:grails-console'
+
+	testCompile 'org.grails:grails-plugin-testing'
 }
 
-sourceSets {
-   main {
-      groovy {
-         srcDir "src/groovy"
-      }
-   }
+task wrapper(type: Wrapper) {
+	gradleVersion = gradleWrapperVersion
 }
