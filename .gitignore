@@ -1,8 +1,8 @@
-build/
-.gradle/
-plugin.xml
-target
-web-app
-*.zip
+*.iml
+*.iws
 *.log
-.settings
+.DS_Store
+/.gradle
+/.idea
+/.settings
+/build
