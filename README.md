@@ -1,16 +1,23 @@
 [![Build Status](https://travis-ci.org/grails-plugins/grails-rest-client-builder.svg)](https://travis-ci.org/grails-plugins/grails-rest-client-builder)
 
+
 # Rest Client Builder Grails Plugin
 
 ## Notice
 
 The code for this plugin has moved to a [subproject of the Grails Data](https://github.com/grails/grails-data-mapping/blob/master/grails-datastore-rest-client/). Please submit any pull requests there.
 
+
 ## Installation
 
 Edit `BuildConfig.groovy` and add the following dependency:
 
     compile ":rest-client-builder:2.0.0"
+    
+For Grails 3.x this plugin *is no longer necessary* and you should instead just declare a dependency on the core Grails Data library:
+
+     compile 'org.grails:grails-datastore-rest-client:5.0.0.RC2
+    
 
 ## Basic Usage
 
