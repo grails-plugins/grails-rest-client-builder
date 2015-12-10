@@ -16,7 +16,7 @@ Edit `BuildConfig.groovy` and add the following dependency:
     
 For Grails 3.x this plugin *is no longer necessary* and you should instead just declare a dependency on the core Grails Data library:
 
-     compile 'org.grails:grails-datastore-rest-client:5.0.0.RC2
+     compile 'org.grails:grails-datastore-rest-client:5.0.0.RC2'
     
 
 ## Basic Usage
