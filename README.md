@@ -88,7 +88,7 @@ You can include in your request any additional header:
 
 ## Testing
 
-Testing can be done with Spring's RestTemplate mocking APIs. See the tests for RestBuilder itself for [an example](https://github.com/grails-plugins/grails-rest-client-builder/blob/master/test/unit/grails/plugins/rest/client/RestBuilderSpec.groovy#L57).
+Testing can be done with Spring's RestTemplate mocking APIs. See the tests for RestBuilder itself for [an example](https://github.com/grails-plugins/grails-rest-client-builder/blob/master/src/test/groovy/grails/plugins/rest/client/RestBuilderSpec.groovy#L47).
 
 ## Multipart Requests
 
