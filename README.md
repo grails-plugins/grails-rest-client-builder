@@ -56,6 +56,17 @@ And XML:
 
 In the example above the `auth` method performs HTTP basic auth, the `contentType` method sets the content type, and the `json` method constructs a JSON body.
 
+### A  `POST` with URL parameters
+
+            def resp = rest.post('http://someServer/foo/bar?username={username}&password={password}') {
+                urlVariables [username:"someDude", password:"abc#123"]
+            }
+
+Please note the above url is not a GString with String interpolation but a String that uses the format/convention specified in the RestTemplate javadoc.
+
+http://docs.spring.io/spring/docs/3.2.x/javadoc-api/org/springframework/web/client/RestTemplate.html
+
+
 ## Exchanging JSON and XML content
 
 As demonstrated in the previous example you can send JSON data using the json method which accepts the same syntax as Grails' JSONBuilder. Alternatively you can provide a String, or any other valid Java object that is convertable to JSON. The following are also valid examples:
