@@ -56,6 +56,14 @@ And XML:
 
 In the example above the `auth` method performs HTTP basic auth, the `contentType` method sets the content type, and the `json` method constructs a JSON body.
 
+Another example for posting a JSON with variable keys
+
+            def map = [key_1: value_1, key_2: value_2, ....,  key_n:value_n]
+            def resp = rest.post("http://repo.grails.org/grails/api/security/groups/test-group"){
+                json { map }
+            }
+                       
+
 ### A  `POST` with URL parameters
 
             def resp = rest.post('http://someServer/foo/bar?username={username}&password={password}') {
