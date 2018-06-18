@@ -59,8 +59,7 @@ In the example above the `auth` method performs HTTP basic auth, the `contentTyp
 Another example for posting a JSON with variable keys
 
             def map = [key_1: value_1, key_2: value_2, ....,  key_n:value_n]
-            def resp = rest.put("http://repo.grails.org/grails/api/security/groups/test-group"){
-                auth System.getProperty("artifactory.user"), System.getProperty("artifactory.pass")
+            def resp = rest.post("http://repo.grails.org/grails/api/security/groups/test-group"){
                 json { map }
             }
                        
